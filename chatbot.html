@@ -58,30 +58,66 @@
         );
       }
 
-      function App() {
+      function ChatMessages() {
+        const array = React.useState([{
+          message: "Hello Chatbot",
+          sender: "user",
+          id:'id1'
+        },
+        {
+          message: "Hello! How can I help you?",
+          sender: "robot",
+          id:'id2'
+        },
+        {
+          message: "can you get me todays date",
+          sender: "user",
+          id:'id3'
+        },
+        {
+          message: "Today is September 18",
+          sender: "robot",
+          id:'id4'
+        }]);
+        
+        const chatMessages = array[0];
+        const setChatMessages = array[1];
+        function sendMessage(){
+          setChatMessages([
+          ...chatMessages,
+          {
+            message: "New message",
+            sender: "user",
+            id: crypto.randomUUID()
+          }
+          ]);
+        }
         return(
           <>
-            <ChatInput />
-            <ChatMessage
-              message = "Hello Chatbot"
-              sender = "user"
-            />
-            <ChatMessage
-              message = "Hello! How can I help you?"
-              sender = "robot"
-            />
-            <ChatMessage 
-              message = "can you get me todays date" 
-              sender = "user"
-            />
-            <ChatMessage 
-              message = "Today is September 18" 
-              sender = "robot"
-            />
-          </>
+          <button onClick={sendMessage} >Send Message </button>
+
+        {chatMessages.map((chatMessage) => {
+              return (
+                <ChatMessage
+                  message = {chatMessage.message}
+                  sender = {chatMessage.sender}
+                  key={chatMessage.id}
+                />
+              );
+        })}
+        </>
         );
       }
 
+      function App() {
+
+        return(
+          <>
+            <ChatInput />
+            <ChatMessages/>
+          </>
+        );
+      }
       const container = document.querySelector('.js-container');
       ReactDOM.createRoot(container).render(<App/>);
     </script>
